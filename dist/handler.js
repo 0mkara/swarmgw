@@ -1,44 +1,44 @@
 "use strict";
-exports.__esModule = true;
-var request = require("request");
+Object.defineProperty(exports, "__esModule", { value: true });
+const request = require("request");
 function isValidHash(hash) {
     return /^[0-9a-f]{64}$/.test(hash);
 }
 exports.isValidHash = isValidHash;
 function getFile(args) {
     return new Promise(function (resolve, reject) {
-        request(args.gateway + "/" + args.url, function (args) {
-            if (args.error) {
-                reject(args.error);
+        request(args.gateway + "/" + args.url, function (error, response) {
+            if (error) {
+                reject(error);
             }
-            else if (args.response.statusCode !== 200) {
-                resolve(args.body);
+            else if (response.statusCode !== 200) {
+                resolve(response.body);
             }
             else {
-                resolve(args.body);
+                resolve(response.body);
             }
         });
     });
 }
 exports.getFile = getFile;
 function putFile(args) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         request({
             method: "POST",
             uri: args.gateway + "/bzz-raw:/",
             body: args.content
-        }, function (args) {
-            if (args.error) {
-                reject(args.error);
+        }, function (error, response) {
+            if (error) {
+                reject(error);
             }
-            else if (args.response.statusCode !== 200) {
-                resolve(args.body);
+            else if (response.statusCode !== 200) {
+                resolve(response.body);
             }
-            else if (!isValidHash(args.body)) {
+            else if (!isValidHash(response.body)) {
                 reject("Invalid hash");
             }
             else {
-                resolve(args.body);
+                resolve(response.body);
             }
         });
     });
@@ -58,10 +58,10 @@ function handler(opts) {
     }
     return {
         get: function (url) {
-            return getFile({ gateway: gateway, url: url });
+            return getFile({ gateway, url });
         },
         put: function (content) {
-            return putFile({ gateway: gateway, content: content });
+            return putFile({ gateway, content });
         }
     };
 }
