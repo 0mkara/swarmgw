@@ -1,23 +1,11 @@
-const request = require("request");
+import request from "request";
+import { getFileArgs, putFileArgs, opts } from "./types";
 
 export function isValidHash(hash: string): boolean {
   return /^[0-9a-f]{64}$/.test(hash);
 }
 
-interface getFileArgs {
-  gateway: string;
-  url: string;
-}
-
-interface requestCB {
-  error?: Error;
-  response?: {
-    statusCode?: number;
-  };
-  body: string;
-}
-
-export function getFile(args: getFileArgs): any {
+export function getFile(args: getFileArgs): Promise<any> {
   return new Promise(function(resolve, reject) {
     request(args.gateway + "/" + args.url, function(
       error: Error,
@@ -34,12 +22,7 @@ export function getFile(args: getFileArgs): any {
   });
 }
 
-interface putFileArgs {
-  gateway: string;
-  content: any;
-}
-
-export function putFile(args: putFileArgs): any {
+export function putFile(args: putFileArgs): Promise<any> {
   return new Promise((resolve, reject) => {
     request(
       {
@@ -51,7 +34,7 @@ export function putFile(args: putFileArgs): any {
         if (error) {
           reject(error);
         } else if (response.statusCode !== 200) {
-          resolve(response.body);
+          reject(response.body);
         } else if (!isValidHash(response.body)) {
           reject("Invalid hash");
         } else {
@@ -60,11 +43,6 @@ export function putFile(args: putFileArgs): any {
       }
     );
   });
-}
-
-interface opts {
-  gateway: string;
-  mode: string;
 }
 
 export function handler(opts: opts): any {
