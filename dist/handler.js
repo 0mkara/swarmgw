@@ -1,13 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const request = require("request");
+const request_1 = __importDefault(require("request"));
 function isValidHash(hash) {
     return /^[0-9a-f]{64}$/.test(hash);
 }
 exports.isValidHash = isValidHash;
 function getFile(args) {
     return new Promise(function (resolve, reject) {
-        request(args.gateway + "/" + args.url, function (error, response) {
+        request_1.default(args.gateway + "/" + args.url, function (error, response) {
             if (error) {
                 reject(error);
             }
@@ -23,7 +26,7 @@ function getFile(args) {
 exports.getFile = getFile;
 function putFile(args) {
     return new Promise((resolve, reject) => {
-        request({
+        request_1.default({
             method: "POST",
             uri: args.gateway + "/bzz-raw:/",
             body: args.content
@@ -32,7 +35,7 @@ function putFile(args) {
                 reject(error);
             }
             else if (response.statusCode !== 200) {
-                resolve(response.body);
+                reject(response.body);
             }
             else if (!isValidHash(response.body)) {
                 reject("Invalid hash");
