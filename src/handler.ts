@@ -14,7 +14,7 @@ export function getFile(args: getFileArgs): Promise<any> {
       if (error) {
         reject(error);
       } else if (response.statusCode !== 200) {
-        resolve(response.body);
+        reject(response.statusCode);
       } else {
         resolve(response.body);
       }
@@ -27,14 +27,17 @@ export function putFile(args: putFileArgs): Promise<any> {
     request(
       {
         method: "POST",
-        uri: args.gateway + "/bzz-raw:/",
+        uri: args.gateway + "/bzz:/",
+        headers: {
+          "Content-Type": "text/plain"
+        },
         body: args.content
       },
       function(error: Error, response: any) {
         if (error) {
           reject(error);
         } else if (response.statusCode !== 200) {
-          reject(response.body);
+          reject(response.statusCode);
         } else if (!isValidHash(response.body)) {
           reject("Invalid hash");
         } else {
