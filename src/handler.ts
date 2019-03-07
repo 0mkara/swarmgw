@@ -46,8 +46,7 @@ export function putFile(args: putFileArgs): Promise<any> {
 }
 
 export function handler(opts: opts): any {
-  //   opts = opts || {};
-  var gateway: string;
+  let gateway: string;
   if (opts.gateway) {
     gateway = opts.gateway;
   } else if (opts.mode === "http") {

@@ -36,7 +36,6 @@ describe("PutFile Function", () => {
       content:
         "931cc5a6bd57724ffd1adefc0ea6b4f0235497fca9e4f9ae4029476bcb51a8c6"
     };
-    // expect.assertions(1);
     expect(putFile(mockArgs)).resolves.toBeTruthy();
   });
 

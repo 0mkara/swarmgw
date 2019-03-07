@@ -48,8 +48,7 @@ function putFile(args) {
 }
 exports.putFile = putFile;
 function handler(opts) {
-    //   opts = opts || {};
-    var gateway;
+    let gateway;
     if (opts.gateway) {
         gateway = opts.gateway;
     }
