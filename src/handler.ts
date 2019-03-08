@@ -1,14 +1,14 @@
 import request from "request";
 import { GetFileArgs, PutFileArgs, Opts } from "./types";
 
-export function isValidHash(hash: string): boolean {
+function isValidHash(hash: string): boolean {
   return /^[0-9a-f]{64}$/.test(hash);
 }
 
-export function getFile(args: GetFileArgs): Promise<any>;
-export function getFile( args: GetFileArgs,  cb: (error: Error, result?: any) => void): void;
+function getFile(args: GetFileArgs): Promise<any>;
+function getFile( args: GetFileArgs,  cb: (error: Error, result?: any) => void): void;
 
-export function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
+function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
   if (cb && typeof (cb == "function")) {
     request(args.gateway + "/" + args.url, function(error, response, body) {
       if (error) {
@@ -34,10 +34,10 @@ export function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
   }
 }
 
-export function putFile(args: PutFileArgs): Promise<any>;
-export function putFile(args: PutFileArgs,  cb: (error: Error, result?: any) => void): void;
+function putFile(args: PutFileArgs): Promise<any>;
+function putFile(args: PutFileArgs,  cb: (error: Error, result?: any) => void): void;
 
-export function putFile(args: PutFileArgs, cb?: any): Promise<any> | void {
+function putFile(args: PutFileArgs, cb?: any): Promise<any> | void {
   if (cb && typeof cb == "function") {
     request(
       {
@@ -87,7 +87,7 @@ export function putFile(args: PutFileArgs, cb?: any): Promise<any> | void {
   }
 }
 
-export function handler(opts: Opts): any {
+module.exports = function (opts: Opts): any {
   let gateway: string;
   if (opts.gateway) {
     gateway = opts.gateway;

@@ -16,7 +16,9 @@
   "devDependencies": {
     "@types/jest": "^24.0.9",
     "@types/request": "^2.48.1",
+    "@types/rewire": "^2.5.28",
     "jest": "^24.1.0",
+    "rewire": "^4.0.1",
     "ts-jest": "^24.0.0",
     "typescript": "^3.3.3333"
   },
