@@ -21,6 +21,7 @@
     "typescript": "^3.3.3333"
   },
   "scripts": {
+    "build": "tsc",
     "test": "tsc && jest",
     "testWithCoverage": "jest --coverage"
   },

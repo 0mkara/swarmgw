@@ -60,6 +60,43 @@ describe("getFile Function", () => {
   });
 });
 
+describe("Tests getFile backward Compatibility", () => {
+  test("getFile cb resolve ", () => {
+    const mockArgs = {
+      gateway: "http://swarm-gateways.net/bzz:/",
+      url: "ae217e61821fb9418a4cd3bbeb5c91ed2dc84988d268dbd601c9fbeb45d7d2ce"
+    };
+    return getFile(mockArgs, (err, res) => {
+      if (!err) {
+        expect(res).toBe("Hello world");
+      }
+    });
+  });
+  test("getFile cb reject statuscode", () => {
+    const mockArgs = {
+      gateway: "http://swarm-gateways.net/bzz:/",
+      url: "ce"
+    };
+    return getFile(mockArgs, (err, res) => {
+      if (err) {
+        expect(err).toBe(404);
+      }
+    });
+  });
+
+  test("getFile cb reject", () => {
+    const mockArgs = {
+      gateway: "",
+      url: ""
+    };
+    return getFile(mockArgs, (err, res) => {
+      if (err) {
+        expect(err).toBeInstanceOf(Error);
+      }
+    });
+  });
+});
+
 // **** PUTFILE FUNCTION ****
 
 describe("PutFile Function", () => {
@@ -103,6 +140,47 @@ describe("PutFile Function", () => {
     };
     return putFile(mockArgs).catch(err => {
       expect(typeof err).toBe("object");
+    });
+  });
+});
+
+describe("putFile function backwards compatibility", () => {
+  test("putFile cb resolve", () => {
+    const mockArgs = {
+      gateway: "https://swarm-gateways.net",
+      content: "Hello world"
+    };
+
+    return putFile(mockArgs, (err, result) => {
+      if (!err) {
+        expect(result).toBe(
+          "ae217e61821fb9418a4cd3bbeb5c91ed2dc84988d268dbd601c9fbeb45d7d2ce"
+        );
+      }
+    });
+  });
+  test("putFile cb reject statuscode", () => {
+    const mockArgs = {
+      gateway: "https://swarm-gateways.net/hjb",
+      content: ""
+    };
+
+    return putFile(mockArgs, (err, result) => {
+      if (err) {
+        expect(err).toBe(405);
+      }
+    });
+  });
+  test("putFile cb resolve", () => {
+    const mockArgs = {
+      gateway: "",
+      content: ""
+    };
+
+    return putFile(mockArgs, (err, result) => {
+      if (err) {
+        expect(err).toBeInstanceOf(Error);
+      }
     });
   });
 });
