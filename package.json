@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "tsc && jest",
+    "test": "tsc && jest --detectOpenHandles",
     "testWithCoverage": "jest --coverage"
   },
   "repository": {
