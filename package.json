@@ -21,7 +21,8 @@
     "typescript": "^3.3.3333"
   },
   "scripts": {
-    "test": "tsc && jest",
+    "build": "tsc",
+    "test": "tsc && jest --detectOpenHandles",
     "testWithCoverage": "jest --coverage"
   },
   "repository": {

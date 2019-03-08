@@ -1,14 +1,14 @@
-export interface getFileArgs {
+export interface GetFileArgs {
   gateway: string;
   url: string;
 }
 
-export interface putFileArgs {
+export interface PutFileArgs {
   gateway: string;
   content: any;
 }
 
-export interface opts {
+export interface Opts {
   gateway: string;
   mode: string;
 }
