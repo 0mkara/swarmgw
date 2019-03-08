@@ -106,12 +106,7 @@ describe("PutFile Function", () => {
       content: "Hello world"
     };
 
-    // expect.assertions(1);
-    // expect(putFile(mockArgs)).resolves.toBe(
-    //   "ae217e61821fb9418a4cd3bbeb5c91ed2dc84988d268dbd601c9fbeb45d7d2ce"
-    // );
 
-    // expect(putFile(mockArgs)).rejects.toBe(Error);
 
     return putFile(mockArgs)
       .then(res => {

@@ -6,10 +6,7 @@ export function isValidHash(hash: string): boolean {
 }
 
 export function getFile(args: GetFileArgs): Promise<any>;
-export function getFile(
-  args: GetFileArgs,
-  cb: (error: Error, result?: any) => void
-): void;
+export function getFile( args: GetFileArgs,  cb: (error: Error, result?: any) => void): void;
 
 export function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
   if (cb && typeof (cb == "function")) {
@@ -38,10 +35,7 @@ export function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
 }
 
 export function putFile(args: PutFileArgs): Promise<any>;
-export function putFile(
-  args: PutFileArgs,
-  cb: (error: Error, result?: any) => void
-): void;
+export function putFile(args: PutFileArgs,  cb: (error: Error, result?: any) => void): void;
 
 export function putFile(args: PutFileArgs, cb?: any): Promise<any> | void {
   if (cb && typeof cb == "function") {
