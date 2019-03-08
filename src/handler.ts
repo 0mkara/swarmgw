@@ -6,11 +6,8 @@ export function isValidHash(hash: string): boolean {
 }
 
 export function getFile(args: getFileArgs): Promise<any> {
-  return new Promise(function(resolve, reject) {
-    request(args.gateway + "/" + args.url, function(
-      error: Error,
-      response: any
-    ) {
+  return new Promise((resolve, reject) => {
+    request(args.gateway + "/" + args.url, (error: Error, response: any) => {
       if (error) {
         reject(error);
       } else if (response.statusCode !== 200) {
@@ -33,7 +30,7 @@ export function putFile(args: putFileArgs): Promise<any> {
         },
         body: args.content
       },
-      function(error: Error, response: any) {
+      (error: Error, response: any) => {
         if (error) {
           reject(error);
         } else if (response.statusCode !== 200) {
@@ -58,10 +55,10 @@ export function handler(opts: opts): any {
     gateway = "https://swarm-gateways.net";
   }
   return {
-    get: function(url: string) {
+    get: (url: string) => {
       return getFile({ gateway, url });
     },
-    put: function(content: any) {
+    put: (content: any) => {
       return putFile({ gateway, content });
     }
   };
