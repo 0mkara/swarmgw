@@ -10,7 +10,7 @@ function getFile( args: GetFileArgs,  cb: (error: Error, result?: any) => void):
 
 function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
   if (cb && typeof (cb == "function")) {
-    request(args.gateway + "/" + args.url, function(error, response, body) {
+    request(args.gateway + "/bzz:/" + args.url, function(error, response, body) {
       if (error) {
         cb(error);
       } else if (response.statusCode !== 200) {
@@ -21,7 +21,7 @@ function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
     });
   } else {
     return new Promise((resolve, reject) => {
-      request(args.gateway + "/" + args.url, (error: Error, response: any) => {
+      request(args.gateway + "/bzz:/" + args.url, (error: Error, response: any) => {
         if (error) {
           reject(error);
         } else if (response.statusCode !== 200) {
@@ -97,11 +97,11 @@ module.exports = function (opts: Opts): any {
     gateway = "https://swarm-gateways.net";
   }
   return {
-    get: (url: string) => {
-      return getFile({ gateway, url });
+    get: (url: string, cb?: any) => {
+      return getFile({ gateway, url }, cb);
     },
-    put: (content: any) => {
-      return putFile({ gateway, content });
+    put: (content: any, cb?: any) => {
+      return putFile({ gateway, content }, cb);
     }
   };
 }

@@ -29,7 +29,7 @@ describe("isValidHash", () => {
 describe("getFile Function", () => {
   test("Tests getFile function return type", () => {
     const mockArgs = {
-      gateway: "http://swarm-gateways.net/bzz:/",
+      gateway: "http://swarm-gateways.net",
       url: "ae217e61821fb9418a4cd3bbeb5c91ed2dc84988d268dbd601c9fbeb45d7d2ce"
     };
 
@@ -49,15 +49,17 @@ describe("getFile Function", () => {
 
   test("getFile Contents", () => {
     const mockArgs = {
-      gateway: "http://swarm-gateways.net/bzz:/",
+      gateway: "https://swarm-gateways.net",
       url: "ae217e61821fb9418a4cd3bbeb5c91ed2dc84988d268dbd601c9fbeb45d7d2ce"
     };
-    return expect(getFile(mockArgs)).resolves.toBe("Hello world");
+    return getFile(mockArgs).then((res: string) => {
+      expect(res).toBe("Hello world");
+    })
   });
 
   test("Tests getFile function rejection", () => {
     const mockArgs = {
-      gateway: "https://swarm-gateways.net/bzz:/",
+      gateway: "https://swarm-gateways.net",
       url: "a"
     };
     return getFile(mockArgs).catch(function (err: any): void {
@@ -69,7 +71,7 @@ describe("getFile Function", () => {
 describe("Tests getFile backward Compatibility", () => {
   test("getFile cb resolve ", () => {
     const mockArgs = {
-      gateway: "http://swarm-gateways.net/bzz:/",
+      gateway: "http://swarm-gateways.net",
       url: "ae217e61821fb9418a4cd3bbeb5c91ed2dc84988d268dbd601c9fbeb45d7d2ce"
     };
     return getFile(mockArgs, (err: any, res: string) => {
@@ -80,7 +82,7 @@ describe("Tests getFile backward Compatibility", () => {
   });
   test("getFile cb reject statuscode", () => {
     const mockArgs = {
-      gateway: "http://swarm-gateways.net/bzz:/",
+      gateway: "http://swarm-gateways.net",
       url: "ce"
     };
     return getFile(mockArgs, (err: number, res: string) => {
