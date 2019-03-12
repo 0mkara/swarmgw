@@ -1,1 +1,1 @@
-export * from "./handler";
+module.exports =  require("./handler");

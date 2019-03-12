@@ -1,16 +1,16 @@
 import request from "request";
 import { GetFileArgs, PutFileArgs, Opts } from "./types";
 
-export function isValidHash(hash: string): boolean {
+function isValidHash(hash: string): boolean {
   return /^[0-9a-f]{64}$/.test(hash);
 }
 
-export function getFile(args: GetFileArgs): Promise<any>;
-export function getFile( args: GetFileArgs,  cb: (error: Error, result?: any) => void): void;
+function getFile(args: GetFileArgs): Promise<any>;
+function getFile( args: GetFileArgs,  cb: (error: Error, result?: any) => void): void;
 
-export function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
+function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
   if (cb && typeof (cb == "function")) {
-    request(args.gateway + "/" + args.url, function(error, response, body) {
+    request(args.gateway + "/bzz:/" + args.url, function(error, response, body) {
       if (error) {
         cb(error);
       } else if (response.statusCode !== 200) {
@@ -21,7 +21,7 @@ export function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
     });
   } else {
     return new Promise((resolve, reject) => {
-      request(args.gateway + "/" + args.url, (error: Error, response: any) => {
+      request(args.gateway + "/bzz:/" + args.url, (error: Error, response: any) => {
         if (error) {
           reject(error);
         } else if (response.statusCode !== 200) {
@@ -34,10 +34,10 @@ export function getFile(args: GetFileArgs, cb?: any): Promise<any> | void {
   }
 }
 
-export function putFile(args: PutFileArgs): Promise<any>;
-export function putFile(args: PutFileArgs,  cb: (error: Error, result?: any) => void): void;
+function putFile(args: PutFileArgs): Promise<any>;
+function putFile(args: PutFileArgs,  cb: (error: Error, result?: any) => void): void;
 
-export function putFile(args: PutFileArgs, cb?: any): Promise<any> | void {
+function putFile(args: PutFileArgs, cb?: any): Promise<any> | void {
   if (cb && typeof cb == "function") {
     request(
       {
@@ -87,7 +87,7 @@ export function putFile(args: PutFileArgs, cb?: any): Promise<any> | void {
   }
 }
 
-export function handler(opts: Opts): any {
+module.exports = function (opts: Opts): any {
   let gateway: string;
   if (opts.gateway) {
     gateway = opts.gateway;
@@ -97,11 +97,11 @@ export function handler(opts: Opts): any {
     gateway = "https://swarm-gateways.net";
   }
   return {
-    get: (url: string) => {
-      return getFile({ gateway, url });
+    get: (url: string, cb?: any) => {
+      return getFile({ gateway, url }, cb);
     },
-    put: (content: any) => {
-      return putFile({ gateway, content });
+    put: (content: any, cb?: any) => {
+      return putFile({ gateway, content }, cb);
     }
   };
 }
